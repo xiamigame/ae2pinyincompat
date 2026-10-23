@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.treasurehunter.ae2pinyincompat.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "ae2pinyincompat.refmap.json",
+  "client": [
+    "RepoSearchMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

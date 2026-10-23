@@ -1,0 +1,53 @@
+modLoader="javafml"
+loaderVersion="[40,)"
+license="MIT"
+
+[[mods]]
+modId="ae2pinyincompat"
+version="${file.jarVersion}"
+displayName="AE2 拼音搜索兼容 (AE2 Pinyin Search Compat)"
+displayTest="IGNORE_ALL_VERSION"
+description='''
+让 AE2 终端搜索在安装 ae2searchimprovementsbackport 之后仍然支持拼音。
+
+原理：在 RepoSearch#setSearchString 末尾给最终搜索谓词追加一层
+「原谓词命中 OR 拼音命中」的兜底（拼音由 Just Enough Characters 提供）。
+只做加法，不改变 @ / # / $ / * / /o/ 等前缀的既有语义。
+
+纯客户端模组，无物品/方块/网络包，服务端不需要安装。
+'''
+
+[[dependencies.ae2pinyincompat]]
+    modId="forge"
+    mandatory=true
+    versionRange="[40,)"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.ae2pinyincompat]]
+    modId="minecraft"
+    mandatory=true
+    versionRange="[1.18.2]"
+    ordering="NONE"
+    side="BOTH"
+
+[[dependencies.ae2pinyincompat]]
+    modId="ae2"
+    mandatory=true
+    versionRange="[11.7,12)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ae2pinyincompat]]
+    modId="jecharacters"
+    mandatory=false
+    versionRange="[4.5,5)"
+    ordering="AFTER"
+    side="BOTH"
+
+[[dependencies.ae2pinyincompat]]
+    modId="ae2searchimprovementsbackport"
+    mandatory=false
+    versionRange="[1.0,)"
+    ordering="AFTER"
+    side="BOTH"
