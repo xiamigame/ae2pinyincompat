@@ -23,7 +23,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 
-$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+$root = $PSScriptRoot
+if (-not $root) { $root = Split-Path -Parent $MyInvocation.MyCommand.Path }
 
 # Optional local overrides (gitignored). Create build.local.ps1 with:
 #   $JdkHome   = 'C:\path\to\jdk-17'
@@ -38,7 +39,7 @@ if (-not $ModsDir)   { throw "ModsDir not set: pass -ModsDir, set WV_MODS_DIR, o
 
 $javac      = Join-Path $JdkHome 'bin\javac.exe'
 $jarTool    = Join-Path $JdkHome 'bin\jar.exe'
-$buildDir   = Join-Path $root 'build'
+$buildDir   = Join-Path $root 'build-javac'   # NOT build/: that directory belongs to Gradle
 $classesDir = Join-Path $buildDir 'classes'
 $distDir    = Join-Path $root 'dist'
 $outJar     = Join-Path $distDir ("ae2pinyincompat-{0}.jar" -f $ModVersion)
