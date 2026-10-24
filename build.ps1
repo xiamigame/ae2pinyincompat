@@ -15,15 +15,27 @@
 #>
 [CmdletBinding()]
 param(
-    [string]$JdkHome    = "D:\Tool\Java\jdk-17.0.4+8",
-    [string]$ForgeLibs  = "E:\Game\Minecraft\WV\Wold's-Vaults-0.34.1\.minecraft\libraries",
-    [string]$ModsDir    = "E:\Game\Minecraft\WV\Wold's-Vaults-0.34.1\.minecraft\versions\Wold's Vaults - Vault Hunters Expansion\mods",
+    [string]$JdkHome    = $env:JAVA_HOME,
+    [string]$ForgeLibs  = $env:WV_FORGE_LIBS,
+    [string]$ModsDir    = $env:WV_MODS_DIR,
     [string]$ModVersion = "1.0.0"
 )
 
 $ErrorActionPreference = 'Stop'
 
-$root       = Split-Path -Parent $MyInvocation.MyCommand.Path
+$root = Split-Path -Parent $MyInvocation.MyCommand.Path
+
+# Optional local overrides (gitignored). Create build.local.ps1 with:
+#   $JdkHome   = 'C:\path\to\jdk-17'
+#   $ForgeLibs = 'C:\path\to\.minecraft\libraries'
+#   $ModsDir   = 'C:\path\to\.minecraft\versions\<instance>\mods'
+$localCfg = Join-Path $root 'build.local.ps1'
+if (Test-Path -LiteralPath $localCfg) { . $localCfg }
+
+if (-not $JdkHome)   { throw "JdkHome not set: pass -JdkHome, set JAVA_HOME, or create build.local.ps1" }
+if (-not $ForgeLibs) { throw "ForgeLibs not set: pass -ForgeLibs, set WV_FORGE_LIBS, or create build.local.ps1" }
+if (-not $ModsDir)   { throw "ModsDir not set: pass -ModsDir, set WV_MODS_DIR, or create build.local.ps1" }
+
 $javac      = Join-Path $JdkHome 'bin\javac.exe'
 $jarTool    = Join-Path $JdkHome 'bin\jar.exe'
 $buildDir   = Join-Path $root 'build'

@@ -25,3 +25,6 @@ accesstransform.log
 # Local-only docs, not part of the mod project
 PLAN.md
 JEC-*.md
+
+# Local paths / machine-specific config
+build.local.ps1

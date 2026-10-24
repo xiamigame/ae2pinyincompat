@@ -30,9 +30,10 @@
 ## 安装
 
 1. 关闭游戏。
-2. 把 `dist\ae2pinyincompat-1.0.0.jar` 复制到：
+2. 把 `dist\ae2pinyincompat-1.0.0.jar` 复制到整合包实例的 `mods\` 目录：
+
    ```
-   E:\Game\Minecraft\WV\Wold's-Vaults-0.34.1\.minecraft\versions\Wold's Vaults - Vault Hunters Expansion\mods\
+   <整合包实例目录>\.minecraft\versions\<实例名>\mods\
    ```
 3. 启动游戏，进入 AE2 终端，直接输入拼音即可（**不需要** `/o/` 前缀）。
 
@@ -116,7 +117,7 @@
 构建：
 
 ```powershell
-$env:JAVA_HOME = 'D:\Tool\Java\jdk-17.0.4+8'   # 必须是 JDK 17
+$env:JAVA_HOME = '<你的 JDK 17 目录>'   # 必须是 JDK 17
 .\gradlew.bat build
 ```
 
@@ -143,14 +144,22 @@ $env:JAVA_HOME = 'D:\Tool\Java\jdk-17.0.4+8'   # 必须是 JDK 17
 powershell -ExecutionPolicy Bypass -File .\build.ps1
 ```
 
-脚本默认值（都可用参数覆盖）：
+脚本参数（都不再写死本机路径）：
 
 | 参数 | 默认值 |
 |---|---|
-| `-JdkHome` | `D:\Tool\Java\jdk-17.0.4+8` |
-| `-ForgeLibs` | 实例的 `.minecraft\libraries` |
-| `-ModsDir` | 实例的 `mods` 目录（自动按文件名找 AE2 与 JEC） |
+| `-JdkHome` | 环境变量 `JAVA_HOME` |
+| `-ForgeLibs` | 环境变量 `WV_FORGE_LIBS`（实例的 `.minecraft\libraries`） |
+| `-ModsDir` | 环境变量 `WV_MODS_DIR`（实例的 `mods` 目录，自动按文件名找 AE2 与 JEC） |
 | `-ModVersion` | `1.0.0` |
+
+> 也可以在工程根目录放一个 `build.local.ps1`（已 gitignore），脚本会自动加载：
+>
+> ```powershell
+> $JdkHome   = 'C:\path\to\jdk-17'
+> $ForgeLibs = 'C:\path\to\.minecraft\libraries'
+> $ModsDir   = 'C:\path\to\.minecraft\versions\<实例名>\mods'
+> ```
 
 > 构建脚本会把 AE2 / JEC 复制成 `build\deps\ae2.jar`、`build\deps\jecharacters.jar` 再编译——
 > 因为 javac 17 读 `@argfile` 用的是系统编码，中文路径会乱码。
